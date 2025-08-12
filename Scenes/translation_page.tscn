@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwwvdrt7la2r8"]
+[gd_scene load_steps=4 format=3 uid="uid://cwwvdrt7la2r8"]
 
-[ext_resource type="Script" uid="uid://xijco80pw5bl" path="res://translation_page.gd" id="1_mt7sx"]
+[ext_resource type="Script" uid="uid://xijco80pw5bl" path="res://Scripts/translation_page.gd" id="1_dxyhf"]
+[ext_resource type="StyleBox" uid="uid://brx00us83uw3f" path="res://Styles/panel.tres" id="2_lfg55"]
+[ext_resource type="Theme" uid="uid://be1vcvc77rvdh" path="res://Styles/font_theme.tres" id="3_lfg55"]
 
 [node name="TranslationPage" type="Control"]
 layout_mode = 3
@@ -9,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_mt7sx")
+script = ExtResource("1_dxyhf")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -30,6 +32,7 @@ anchor_bottom = 0.800926
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(250, 0)
+theme_override_styles/panel = ExtResource("2_lfg55")
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -86,6 +89,7 @@ layout_mode = 2
 [node name="Sentence" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/Word Container/VBoxContainer/NativeMargin/Native Sentence"]
 unique_name_in_owner = true
 layout_mode = 2
+theme = ExtResource("3_lfg55")
 text = "Sentence to translate. "
 fit_content = true
 

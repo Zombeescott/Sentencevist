@@ -13,16 +13,6 @@ var correct_state: bool = false
 var sent_one = Sentence.new("Sentence to translate", "Type this dipshit")
 var sent_two = Sentence.new("This is the next sentence", "Type this again dipshit")
 
-# Carries information for each sentence
-class Sentence:
-	var native: String
-	var trans: String 
-	
-	func _init(n: String, t: String):
-		native = n
-		trans = t
-	
-
 func _ready() -> void:
 	native_sentence = %Sentence
 	text_block = %TextEdit
