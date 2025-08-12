@@ -86,6 +86,7 @@ func next_sentence(sentence: Sentence) -> void:
 func clean_display() -> void:
 	wrong_state = false
 	correct_state = false
+	native_sentence.text = current_native
 	text_block.clear()
 	text_block.modulate = Color.WHITE
 	
