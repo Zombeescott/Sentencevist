@@ -10,3 +10,8 @@ func _init(n: String, t: String):
 	assert(t != "", "Translation cannot be empty")
 	native = n
 	trans = t
+	
+
+func _to_string() -> String:
+	return "%s, %s" % [native, trans]
+	

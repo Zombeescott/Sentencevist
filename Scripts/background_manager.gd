@@ -26,16 +26,16 @@ func show_scene(packed: PackedScene, scene: Node, layer: int = 0) -> Node:
 	
 
 func instantiate_panel(name: String, panel_scene: PackedScene, layer: int = 0) -> void:
-	# Close existing panel with same name
-	if name in panels:
-		panels[name].queue_free()
-	
 	# Create new panel
 	var panel = panel_scene.instantiate()
 	add_panel(name, panel, layer)
 	
 
 func add_panel(name: String, panel: Node, layer: int = 0) -> void:
+	# Close existing panel with same name
+	if name in panels:
+		panels[name].queue_free()
+	
 	get_tree().current_scene.add_child(panel)
 	#self.add_child(panel)
 	panel.z_index = layer

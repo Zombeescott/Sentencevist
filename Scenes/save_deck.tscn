@@ -1,0 +1,100 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2lrjy30aovul"]
+
+[ext_resource type="Script" uid="uid://583nkqmr0stq" path="res://Scripts/save_deck.gd" id="1_7ko4j"]
+[ext_resource type="StyleBox" uid="uid://brx00us83uw3f" path="res://Styles/panel.tres" id="1_murjn"]
+[ext_resource type="Theme" uid="uid://be1vcvc77rvdh" path="res://Styles/font_theme.tres" id="2_7ko4j"]
+
+[node name="Save Deck" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7ko4j")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -200.0
+offset_right = 150.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = ExtResource("1_murjn")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="AreYouSure" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Are you sure you want to create:"
+horizontal_alignment = 1
+
+[node name="DeckName" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/outline_size = 50
+theme_override_font_sizes/font_size = 20
+text = "Deck name here"
+horizontal_alignment = 1
+
+[node name="ItemTotal" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 15
+text = "with 0 items"
+horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "You can edit it later at anytime."
+horizontal_alignment = 1
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.33
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Back" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_7ko4j")
+text = "Back"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Save" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_7ko4j")
+text = "Create Deck"
+
+[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Back" to="." method="_on_back_button_down"]
+[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/Save" to="." method="_on_save_button_down"]
