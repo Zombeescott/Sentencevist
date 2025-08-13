@@ -7,14 +7,6 @@ var sidebar_scene: PackedScene
 var current_background: Node
 var current_sidebar: Node
 
-func _ready() -> void:
-	if get_tree().current_scene.name == "Background":
-		return
-	
-	#background_scene = preload("res://Scenes/background.tscn")
-	#current_background = show_scene(background_scene, current_background, -1000)
-	
-
 func show_scene(packed: PackedScene, scene: Node, layer: int = 0) -> Node:
 	if scene:
 		scene.queue_free()
@@ -47,4 +39,10 @@ func hide_panel(name: String) -> void:
 	if name in panels:
 		panels[name].queue_free()
 		panels.erase(name)
+	
+
+# Resets all panels
+func clear_panels() -> void:
+	for each in panels.keys():
+		hide_panel(each)
 	
