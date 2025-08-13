@@ -11,14 +11,24 @@ config_version=5
 [application]
 
 config/name="Sentencevist"
+run/main_scene="uid://oob10jejofmk"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+Global="*res://Scripts/global.gd"
+BackgroundManager="*res://Scripts/background_manager.gd"
 
 [display]
 
 window/size/initial_position_type=0
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/default_font_multichannel_signed_distance_field=true
 
 [input]
 

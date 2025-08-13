@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://ulw14cxsvyqg"]
+
+[ext_resource type="Script" uid="uid://iwget00fw4p1" path="res://Scripts/side_bar.gd" id="1_3mm4w"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7lvw1"]
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+
+[node name="SideBar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3mm4w")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+top_level = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 50.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7lvw1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="ItemList" type="ItemList" parent="PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(125, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.45
+item_count = 3
+item_0/text = "Sentences"
+item_1/text = "Create"
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="Minimize" type="CheckBox" parent="PanelContainer/HBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[connection signal="item_selected" from="PanelContainer/HBoxContainer/ItemList" to="." method="_on_item_list_item_selected"]
+[connection signal="toggled" from="PanelContainer/HBoxContainer/MarginContainer/Minimize" to="." method="_on_minimize_toggled"]

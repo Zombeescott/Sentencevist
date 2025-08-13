@@ -22,10 +22,6 @@ func _ready() -> void:
 	current_native = sent_one.native
 	current_trans = sent_one.trans
 	
-#	Set the screen size TODO: Do this somewhere else later
-	get_window().size = Vector2(2500, 1500)
-	get_window().move_to_center()
-	
 
 func _input(event): 
 	if Input.is_action_just_pressed("enter"):
