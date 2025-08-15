@@ -10,6 +10,7 @@ func _ready() -> void:
 	
 	scene_list.append(preload("res://Scenes/translation_page.tscn"))
 	scene_list.append(preload("res://Scenes/import_sentences.tscn"))
+	scene_list.append(preload("res://Scenes/deck_selection.tscn"))
 
 func _on_minimize_toggled(toggled_on: bool) -> void:
 	if toggled_on:

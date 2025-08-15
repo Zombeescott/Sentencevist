@@ -36,6 +36,7 @@ size_flags_stretch_ratio = 5.45
 item_count = 3
 item_0/text = "Sentences"
 item_1/text = "Create"
+item_2/text = "Deck Select"
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/HBoxContainer"]
 layout_mode = 2

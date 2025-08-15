@@ -9,18 +9,20 @@ func _ready():
 	if not DirAccess.dir_exists_absolute(USER_DECKS_PATH):
 		DirAccess.open("user://").make_dir_recursive("saves")
 	
+	Global.set_decks(load_user_deck(), load_example_deck())
+	
 
 ## System/Example Files (Read-only)
-func load_example_deck() -> Array:
+func load_example_deck() -> Dictionary:
 	return load_decks(SYSTEM_EXAMPLES_PATH)
 	
 
-func load_user_deck() -> Array:
+func load_user_deck() -> Dictionary:
 	return load_decks(USER_DECKS_PATH)
 	
 
-func load_decks(path: String) -> Array:
-	var examples = []
+func load_decks(path: String) -> Dictionary:
+	var decks: Dictionary = {}
 	var dir = DirAccess.open(path)
 	
 	if dir:
@@ -29,14 +31,13 @@ func load_decks(path: String) -> Array:
 		
 		while file_name != "":
 			if file_name.ends_with(".json"):
-				var example_data = load_json_file(path + file_name)
-				if example_data:
-					example_data["is_system_file"] = true
-					example_data["filename"] = file_name
-					examples.append(example_data)
+				var deck_data = load_json_file(path + file_name)
+				if deck_data:
+					var deck_name = file_name.get_file().replace(".json", "")
+					decks.set(deck_name, deck_data)
 			file_name = dir.get_next()
 	
-	return examples
+	return decks
 	
 
 func save_user_deck(deck_name: String, sentences: Dictionary) -> bool:
