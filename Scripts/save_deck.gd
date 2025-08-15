@@ -3,6 +3,7 @@ extends Control
 var deck_label: Label
 var total_label: Label
 var final_list: ItemList
+var final_dict: Dictionary
 
 func _ready() -> void:
 	deck_label = %DeckName
@@ -10,21 +11,36 @@ func _ready() -> void:
 	final_list = %ItemList
 	
 
-func set_variables(deck_name: String, total: int, list: ItemList) -> void:
+func set_variables(deck_name: String, total: int, sentences: Dictionary) -> void:
 	if deck_name == "":
 		deck_label.text = "Empty"
 	else:
 		deck_label.text = deck_name
 		
 	total_label.text = "with %d items" % total
-	for i in range(list.get_item_count()):
-		final_list.add_item(list.get_item_text(i))
+	for key in sentences:
+		final_list.add_item(key + ", " + sentences.get(key))
+	
+	final_dict = sentences
 	
 
-func _on_back_button_down() -> void:
+func hide_panel() -> void:
 	BackgroundManager.hide_panel("Create Deck")
 	
 
+func _on_back_button_down() -> void:
+	hide_panel()
+	
+
 func _on_save_button_down() -> void:
-	pass # Replace with function body.
+	if SaveManager.save_user_deck(deck_label.text, final_dict):
+		# TODO: tell user that it was successful
+		hide_panel()
+		
+		# Shortcut for files
+		#var user_path = ProjectSettings.globalize_path("user://saves/")
+		#OS.shell_open(user_path)
+	else:
+		# TODO: tell user that something went wrong
+		pass
 	

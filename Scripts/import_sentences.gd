@@ -7,7 +7,8 @@ var total_counter: RichTextLabel
 var create_screen: PackedScene
 
 var sentence_data: String
-var sentences: Array[Sentence] = []
+var sentence_list: Array[Sentence] = []
+var sentences: Dictionary = {}
 
 func _ready() -> void:
 	name_box = %DeckName
@@ -28,8 +29,10 @@ func parse_sentence_data(text: String) -> void:
 		if i + 1 < lines.size():  # Make sure next line exis
 			if lines[i] != "" and lines[i+1] != "":
 				var temp = Sentence.new(lines[i], lines[i+1])
-				sentences.append(temp)
+				sentence_list.append(temp)
 				item_list.add_item(temp.to_string())
+				
+				sentences[temp.native] = temp.trans
 	
 	update_total()
 	
@@ -50,8 +53,9 @@ func _on_convert_button_down() -> void:
 
 # Remove clicked item
 func _on_complete_sentences_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	sentences.erase(sentence_list.get(index).native)
+	sentence_list.pop_at(index)
 	item_list.remove_item(index)
-	sentences.pop_at(index)
 	update_total()
 	
 
@@ -59,5 +63,5 @@ func _on_next_button_down() -> void:
 	convert_data()
 	var create = create_screen.instantiate()
 	BackgroundManager.add_panel("Create Deck", create, 1)
-	create.set_variables(name_box.text, sentences.size(), item_list)
+	create.set_variables(name_box.text, sentences.size(), sentences)
 	

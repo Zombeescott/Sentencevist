@@ -17,8 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://Scripts/global.gd"
-BackgroundManager="*res://Scripts/background_manager.gd"
+Global="*res://Scripts/Autoloads/global.gd"
+BackgroundManager="*res://Scripts/Autoloads/background_manager.gd"
+SaveManager="*res://Scripts/Autoloads/save_manager.gd"
 
 [display]
 
