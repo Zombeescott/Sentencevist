@@ -117,3 +117,4 @@ auto_width = true
 auto_height = true
 
 [connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/Top Bar/Back" to="." method="_on_back_button_down"]
+[connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/Top Bar/Start" to="." method="_on_start_button_down"]

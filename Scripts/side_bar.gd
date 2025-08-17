@@ -20,6 +20,16 @@ func _on_minimize_toggled(toggled_on: bool) -> void:
 	
 
 func _on_item_list_item_selected(index: int) -> void:
-	BackgroundManager.clear_panels()
-	var scene: PackedScene = scene_list[index]
-	BackgroundManager.instantiate_panel(scene.resource_name, scene)
+	BackgroundManager.change_screen(scene_list[index])
+	
+
+func manual_screen_change(screen: String) -> void:
+	match screen:
+		"translation":
+			print("Translation")
+			list.select(0)
+		"import":
+			print("Import selected")
+		_:
+			print("Invalid screen")
+		

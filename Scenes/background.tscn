@@ -19,5 +19,5 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.74768, 0.74768, 0.74768, 1)
 
-[node name="SideBar" parent="." instance=ExtResource("1_sn1xx")]
+[node name="Sidebar" parent="." instance=ExtResource("1_sn1xx")]
 layout_mode = 1

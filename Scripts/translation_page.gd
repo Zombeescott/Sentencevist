@@ -12,6 +12,8 @@ var correct_state: bool = false
 
 var sent_one = Sentence.new("Sentence to translate", "Type this dipshit")
 var sent_two = Sentence.new("This is the next sentence", "Type this again dipshit")
+var sentence_dict: Dictionary
+var sentence_keys: Array
 
 func _ready() -> void:
 	native_sentence = %Sentence
@@ -34,6 +36,14 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if wrong_state or correct_state:
 			prevent_change()
+	
+
+func set_variables(deck_name: String) -> void:
+	sentence_dict = Global.get_user_decks().get(deck_name)
+	sentence_keys = sentence_dict.keys()
+	
+	set_current_sentences()
+	clean_display()
 	
 
 # Checks if input was correct
@@ -61,10 +71,21 @@ func change_text_color() -> void:
 		text_block.modulate = Color.LIME_GREEN
 	
 
+func set_current_sentences() -> bool:
+	if sentence_keys.size() == 0:
+		current_native = "All done, no more sentences for this deck."
+		current_trans = "Pick another deck to study"
+		return false
+	
+	var curr = sentence_keys.pop_front()
+	current_native = curr
+	current_trans = sentence_dict.get(curr)
+	return true
+	
+
 # Goes to next new sentence
-func next_sentence(sentence: Sentence) -> void:
-	current_native = sentence.native
-	current_trans = sentence.trans
+func next_sentence() -> void:
+	set_current_sentences()
 	clean_display()
 	
 
@@ -88,12 +109,12 @@ func prevent_change() -> void:
 
 # Skips the current sentence
 func _on_skip_button_button_down() -> void:
-	next_sentence(sent_two)
+	next_sentence()
 	
 
 func _on_timer_timeout() -> void:
 	if wrong_state:
 		clean_display()
 	if correct_state:
-		next_sentence(sent_two)
+		next_sentence()
 	
