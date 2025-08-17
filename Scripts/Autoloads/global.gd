@@ -27,3 +27,15 @@ func get_user_decks() -> Dictionary:
 func get_example_decks() -> Dictionary:
 	return example_decks
 	
+
+# Utility function that fills a given ItemList (For names)
+func fill_list(deck_list: ItemList, keys: Array) -> void:
+	for key in keys:
+		deck_list.add_item(key)
+	
+
+# Utility function that fills a given ItemList (For Sentences)
+func fill_list_sentences(deck_list: ItemList, sentences: Dictionary) -> void:
+	for key in sentences:
+		deck_list.add_item(key + ", " + sentences.get(key))
+	

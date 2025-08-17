@@ -3,6 +3,7 @@ extends Control
 var next_button: Button
 var user_decks: ItemList
 var example_decks: ItemList
+var deck_settings: PackedScene
 
 var selected_deck: String
 
@@ -10,15 +11,10 @@ func _ready() -> void:
 	next_button = %Next
 	user_decks = %UserDecks
 	example_decks = %ExampleDecks
+	deck_settings = preload("res://Scenes/deck_settings.tscn")
 	
-	fill_lists(user_decks, Global.get_user_decks().keys())
-	fill_lists(example_decks, Global.get_example_decks().keys())
-	
-
-func fill_lists(deck_list: ItemList, keys: Array) -> void:
-	for key in keys:
-		deck_list.add_item(key)
-		print(keys)
+	Global.fill_list(user_decks, Global.get_user_decks().keys())
+	Global.fill_list(example_decks, Global.get_example_decks().keys())
 	
 
 func _on_user_decks_item_selected(index: int) -> void:
@@ -33,5 +29,8 @@ func _on_example_decks_item_selected(index: int) -> void:
 	
 
 func _on_next_button_down() -> void:
-	# TODO: start sentence page
-	pass
+	# Start settings page
+	var settings = deck_settings.instantiate()
+	BackgroundManager.add_panel("Deck Settings", settings, 1)
+	settings.set_variables(selected_deck)
+	

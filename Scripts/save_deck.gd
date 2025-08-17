@@ -18,8 +18,7 @@ func set_variables(deck_name: String, total: int, sentences: Dictionary) -> void
 		deck_label.text = deck_name
 		
 	total_label.text = "with %d items" % total
-	for key in sentences:
-		final_list.add_item(key + ", " + sentences.get(key))
+	Global.fill_list_sentences(final_list, sentences)
 	
 	final_dict = sentences
 	
