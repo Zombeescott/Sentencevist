@@ -14,6 +14,13 @@ var sent_one = Sentence.new("Sentence to translate", "Type this dipshit")
 var sent_two = Sentence.new("This is the next sentence", "Type this again dipshit")
 var sentence_dict: Dictionary
 var sentence_keys: Array
+var deck_order: int = 0
+var deck_method: int = 0
+
+var saved_words: Array
+var retry_counter: int = RETRY_NUM
+
+const RETRY_NUM = 3
 
 func _ready() -> void:
 	native_sentence = %Sentence
@@ -38,9 +45,11 @@ func _input(event):
 			prevent_change()
 	
 
-func set_variables(deck_name: String) -> void:
-	sentence_dict = Global.get_user_decks().get(deck_name)
+func set_variables(settings: StudySettings) -> void:
+	sentence_dict = Global.get_user_decks().get(settings.deck_name)
 	sentence_keys = sentence_dict.keys()
+	deck_method = settings.method
+	deck_order = settings.order
 	
 	set_current_sentences()
 	clean_display()
@@ -50,6 +59,11 @@ func set_variables(deck_name: String) -> void:
 func check_answer() -> bool: 
 	if text_block.text == current_trans && (!wrong_state || !correct_state):
 		return true
+	
+	if deck_method == 1 and !saved_words.has(current_native):
+		# Save for user to retry
+		saved_words.append(current_native)
+	
 	return false
 	
 
@@ -72,12 +86,31 @@ func change_text_color() -> void:
 	
 
 func set_current_sentences() -> bool:
-	if sentence_keys.size() == 0:
+	# TODO: clean up this place and its checks with sentence_keys == 0
+	if sentence_keys.size() == 0 and saved_words.size() <= 0:
 		current_native = "All done, no more sentences for this deck."
 		current_trans = "Pick another deck to study"
 		return false
 	
-	var curr = sentence_keys.pop_front()
+	var curr: String
+	
+	if deck_method == 1 and saved_words.size() > 0:
+		# If an error was made reuse faulty sentence
+		if retry_counter > 0 and sentence_keys.size() > 0:
+			# when counter hits zero, review words
+			retry_counter -= 1
+		else:
+			curr = saved_words.pop_front()
+			if saved_words.size() > 0:
+				retry_counter = RETRY_NUM
+			
+	if retry_counter > 0 and sentence_keys.size() > 0: # Default method
+		match deck_order:
+			0: # In order
+				curr = sentence_keys.pop_front()
+			1: # Random
+				curr = sentence_keys.pop_at(randi_range(0, sentence_keys.size() - 1))
+	
 	current_native = curr
 	current_trans = sentence_dict.get(curr)
 	return true

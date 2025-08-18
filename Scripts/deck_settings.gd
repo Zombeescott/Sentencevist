@@ -3,6 +3,7 @@ extends Control
 var back_button: Button
 var start_button: Button
 var order_option: OptionButton
+var method_option: OptionButton
 var sent_list: ItemList
 var translation_screen: PackedScene
 
@@ -12,6 +13,7 @@ func _ready() -> void:
 	back_button = %Back
 	start_button = %Start
 	order_option = %OrderOption
+	method_option = %MethodOption
 	sent_list = %Sentences
 	translation_screen = preload("res://Scenes/translation_page.tscn")
 	
@@ -32,8 +34,14 @@ func _on_start_button_down() -> void:
 	BackgroundManager.manual_change_screen("translation")
 	var screen = translation_screen.instantiate()
 	BackgroundManager.add_panel("Translation", screen)
-	# TODO: make a class the stores the settings and send it through
-	screen.set_variables(selected_deck)
+	
+	var settings: Dictionary = {
+		"deck_name": selected_deck,
+		"order": order_option.get_selected_id(),
+		"method": method_option.get_selected_id()
+	}
+	var setee = StudySettings.new(settings)
+	screen.set_variables(setee)
 	
 	# Clear everything but new screen
 	BackgroundManager.clear_panels("Translation")

@@ -34,6 +34,7 @@ func _on_back_button_down() -> void:
 func _on_save_button_down() -> void:
 	if SaveManager.save_user_deck(deck_label.text, final_dict):
 		# TODO: tell user that it was successful
+		Global.refresh()
 		hide_panel()
 		
 		# Shortcut for files

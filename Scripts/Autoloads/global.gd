@@ -14,10 +14,17 @@ func set_screen_size() -> void:
 	get_window().move_to_center()
 	
 
+# Called only by save_manager when it is ready
 func set_decks(user: Dictionary, example: Dictionary) -> void:
 	user_decks = user
 	example_decks = example
 	# TODO: also progress
+	
+
+# Refresh global variables
+func refresh() -> void:
+	user_decks = SaveManager.load_user_deck()
+	example_decks = SaveManager.load_example_deck()
 	
 
 func get_user_decks() -> Dictionary:
