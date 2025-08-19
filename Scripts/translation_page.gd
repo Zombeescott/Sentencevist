@@ -2,6 +2,7 @@ extends Control
 
 var native_sentence: RichTextLabel
 var text_block: TextEdit
+var correct_label: RichTextLabel
 var skip_button: Button
 var timer: Timer
 
@@ -20,11 +21,12 @@ var deck_method: int = 0
 var saved_words: Array
 var retry_counter: int = RETRY_NUM
 
-const RETRY_NUM = 3
+const RETRY_NUM: int = 3
 
 func _ready() -> void:
 	native_sentence = %Sentence
 	text_block = %TextEdit
+	correct_label = %CorrectLabel
 	skip_button = %"Skip Button"
 	timer = %Timer
 	
@@ -40,6 +42,7 @@ func _input(event):
 			prevent_change()
 		else:
 			answer_feedback(check_answer())
+	
 	if event is InputEventKey and event.pressed:
 		if wrong_state or correct_state:
 			prevent_change()
@@ -78,11 +81,19 @@ func answer_feedback(status: bool) -> void:
 	
 
 func change_text_color() -> void:
-	text_block.text = current_trans
-	if wrong_state:
-		text_block.modulate = Color.CRIMSON
-	elif correct_state:
-		text_block.modulate = Color.LIME_GREEN
+	var result = ""
+	for i in range(current_trans.length()):
+		if i < text_block.text.length():
+			if current_trans[i] == text_block.text[i]:
+				result += "[color=lime_green]%s[/color]" % current_trans[i]
+			else:
+				result += "[color=red]%s[/color]" % current_trans[i]
+		else:
+			result += "[color=red]%s[/color]" % current_trans[i]
+	
+	text_block.text = ""
+	correct_label.text = result
+	correct_label.get_parent().visible = true
 	
 
 func set_current_sentences() -> bool:
@@ -127,17 +138,14 @@ func clean_display() -> void:
 	wrong_state = false
 	correct_state = false
 	native_sentence.text = current_native
-	text_block.clear()
-	text_block.modulate = Color.WHITE
+	correct_label.text = ""
+	correct_label.get_parent().visible = false
 	
 
 func prevent_change() -> void:
 	# Wait until the end of the frame to check
 	await get_tree().process_frame
-	if !wrong_state && !correct_state:
-		text_block.text = ""
-	else:
-		change_text_color()
+	text_block.text = ""
 	
 
 # Skips the current sentence
