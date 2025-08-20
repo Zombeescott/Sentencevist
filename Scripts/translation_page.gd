@@ -3,6 +3,7 @@ extends Control
 var native_sentence: RichTextLabel
 var text_block: TextEdit
 var correct_label: RichTextLabel
+var prev_ans_label: RichTextLabel
 var skip_button: Button
 var timer: Timer
 
@@ -11,12 +12,13 @@ var current_trans: String
 var wrong_state: bool = false
 var correct_state: bool = false
 
-var sent_one = Sentence.new("Sentence to translate", "Type this dipshit")
-var sent_two = Sentence.new("This is the next sentence", "Type this again dipshit")
+var sent_one = Sentence.new("Sentence to translate.", "Type this dipshit.")
+var sent_two = Sentence.new("This is the next sentence.", "Type this again dipshit.")
 var sentence_dict: Dictionary
 var sentence_keys: Array
 var deck_order: int = 0
 var deck_method: int = 0
+var use_prev_ans: bool = true
 
 var saved_words: Array
 var retry_counter: int = RETRY_NUM
@@ -27,6 +29,7 @@ func _ready() -> void:
 	native_sentence = %Sentence
 	text_block = %TextEdit
 	correct_label = %CorrectLabel
+	prev_ans_label = %PrevAnsLabel
 	skip_button = %"Skip Button"
 	timer = %Timer
 	
@@ -53,6 +56,7 @@ func set_variables(settings: StudySettings) -> void:
 	sentence_keys = sentence_dict.keys()
 	deck_method = settings.method
 	deck_order = settings.order
+	use_prev_ans = settings.prev_ans
 	
 	set_current_sentences()
 	clean_display()
@@ -66,6 +70,8 @@ func check_answer() -> bool:
 	if deck_method == 1 and !saved_words.has(current_native):
 		# Save for user to retry
 		saved_words.append(current_native)
+	if use_prev_ans:
+		prev_ans_label.text = text_block.text
 	
 	return false
 	
@@ -128,17 +134,18 @@ func compare_word_letters(user_word: String, correct_word: String) -> String:
 	
 
 func set_current_sentences() -> bool:
-	# TODO: clean up this place and its checks with sentence_keys == 0
-	if sentence_keys.size() == 0 and saved_words.size() <= 0:
+	var more_sents = sentence_keys.size() > 0
+	
+	if !more_sents and saved_words.size() <= 0:
 		current_native = "All done, no more sentences for this deck."
 		current_trans = "Pick another deck to study"
 		return false
 	
-	var curr: String
+	var curr: String = ""
 	
 	if deck_method == 1 and saved_words.size() > 0:
-		# If an error was made reuse faulty sentence
-		if retry_counter > 0 and sentence_keys.size() > 0:
+		# If an error was made, reuse faulty sentence
+		if retry_counter > 0 and more_sents:
 			# when counter hits zero, review words
 			retry_counter -= 1
 		else:
@@ -146,7 +153,7 @@ func set_current_sentences() -> bool:
 			if saved_words.size() > 0:
 				retry_counter = RETRY_NUM
 			
-	if retry_counter > 0 and sentence_keys.size() > 0: # Default method
+	if retry_counter > 0 and more_sents: # Default method
 		match deck_order:
 			0: # In order
 				curr = sentence_keys.pop_front()
@@ -162,6 +169,9 @@ func set_current_sentences() -> bool:
 func next_sentence() -> void:
 	set_current_sentences()
 	clean_display()
+	
+	if use_prev_ans:
+		prev_ans_label.text = ""
 	
 
 # Fixes display if there is something going on

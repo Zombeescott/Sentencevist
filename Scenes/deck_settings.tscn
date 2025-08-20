@@ -18,21 +18,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1nuyr")
+metadata/_edit_use_anchors_ = true
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -400.0
-offset_top = -250.0
-offset_right = 400.0
-offset_bottom = 250.0
+anchors_preset = -1
+anchor_left = 0.152778
+anchor_top = 0.114198
+anchor_right = 0.847222
+anchor_bottom = 0.885802
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = ExtResource("1_qj8ji")
+metadata/_edit_use_anchors_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
 layout_mode = 2
@@ -103,6 +101,10 @@ popup/item_0/id = 0
 popup/item_1/text = "Random"
 popup/item_1/id = 1
 
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
 [node name="MethodLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/Settings"]
 layout_mode = 2
 text = "Study Method:"
@@ -117,9 +119,28 @@ popup/item_0/id = 0
 popup/item_1/text = "No mistakes"
 popup/item_1/id = 1
 
+[node name="HSeparator2" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/Settings"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ExtraOptions" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/Settings"]
+layout_mode = 2
+text = "Extras:"
+
+[node name="ExtrasContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/Settings"]
+layout_mode = 2
+
+[node name="PrevAnsButton" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/Settings/ExtrasContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+button_pressed = true
+text = "Show previous answer:"
+
 [node name="ListContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.19
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/ListContainer"]
 layout_mode = 2
@@ -128,7 +149,6 @@ text = "Sentences in deck:"
 [node name="Sentences" type="ItemList" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/ListContainer"]
 unique_name_in_owner = true
 layout_mode = 2
-auto_width = true
 auto_height = true
 
 [connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/Top Bar/Back" to="." method="_on_back_button_down"]

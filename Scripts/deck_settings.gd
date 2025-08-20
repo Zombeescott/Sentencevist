@@ -4,6 +4,7 @@ var back_button: Button
 var start_button: Button
 var order_option: OptionButton
 var method_option: OptionButton
+var prev_ans_button: CheckButton
 var sent_list: ItemList
 var translation_screen: PackedScene
 
@@ -14,6 +15,7 @@ func _ready() -> void:
 	start_button = %Start
 	order_option = %OrderOption
 	method_option = %MethodOption
+	prev_ans_button = %PrevAnsButton
 	sent_list = %Sentences
 	translation_screen = preload("res://Scenes/translation_page.tscn")
 	
@@ -35,13 +37,12 @@ func _on_start_button_down() -> void:
 	var screen = translation_screen.instantiate()
 	BackgroundManager.add_panel("Translation", screen)
 	
-	var settings: Dictionary = {
-		"deck_name": selected_deck,
-		"order": order_option.get_selected_id(),
-		"method": method_option.get_selected_id()
-	}
-	var setee = StudySettings.new(settings)
-	screen.set_variables(setee)
+	var settings = StudySettings.new() \
+		.with_deck_name(selected_deck) \
+		.with_order(order_option.get_selected_id()) \
+		.with_method(method_option.get_selected_id()) \
+		.with_prev_ans(prev_ans_button.button_pressed)
+	screen.set_variables(settings)
 	
 	# Clear everything but new screen
 	BackgroundManager.clear_panels("Translation")

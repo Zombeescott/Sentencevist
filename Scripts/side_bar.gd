@@ -11,6 +11,7 @@ func _ready() -> void:
 	scene_list.append(preload("res://Scenes/translation_page.tscn"))
 	scene_list.append(preload("res://Scenes/import_sentences.tscn"))
 	scene_list.append(preload("res://Scenes/deck_selection.tscn"))
+	
 
 func _on_minimize_toggled(toggled_on: bool) -> void:
 	if toggled_on:
@@ -26,7 +27,6 @@ func _on_item_list_item_selected(index: int) -> void:
 func manual_screen_change(screen: String) -> void:
 	match screen:
 		"translation":
-			print("Translation")
 			list.select(0)
 		"import":
 			print("Import selected")
