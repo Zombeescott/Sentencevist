@@ -76,24 +76,55 @@ func answer_feedback(status: bool) -> void:
 		correct_state = true
 	else:
 		wrong_state = true
-	change_text_color()
+	
+	correct_label.text = change_text_color(text_block.text, current_trans)
+	correct_label.get_parent().visible = true
+	text_block.text = ""
 	timer.start()
 	
 
-func change_text_color() -> void:
+func change_text_color(user_input: String, correct_text: String) -> String:
+	var user_words = user_input.split(" ")
+	var correct_words = correct_text.split(" ")
 	var result = ""
-	for i in range(current_trans.length()):
-		if i < text_block.text.length():
-			if current_trans[i] == text_block.text[i]:
-				result += "[color=lime_green]%s[/color]" % current_trans[i]
-			else:
-				result += "[color=red]%s[/color]" % current_trans[i]
-		else:
-			result += "[color=red]%s[/color]" % current_trans[i]
 	
-	text_block.text = ""
-	correct_label.text = result
-	correct_label.get_parent().visible = true
+	var max_words = max(user_words.size(), correct_words.size())
+	
+	for word_index in range(max_words):
+		if word_index > 0:
+			result += " "  # Add space between words
+			
+		var user_word = user_words[word_index] if word_index < user_words.size() else ""
+		var correct_word = correct_words[word_index] if word_index < correct_words.size() else ""
+		
+		# Compare letters within this word
+		result += compare_word_letters(user_word, correct_word)
+	
+	return result
+	
+
+func compare_word_letters(user_word: String, correct_word: String) -> String:
+	var result = ""
+	var max_length = max(user_word.length(), correct_word.length())
+	
+	for i in range(max_length):
+		var user_letter = user_word[i] if i < user_word.length() else ""
+		var correct_letter = correct_word[i] if i < correct_word.length() else ""
+		
+		if user_letter == "" and correct_letter != "":
+			# Missing letter
+			result += "%s" % correct_letter
+		elif user_letter != "" and correct_letter == "":
+			# Extra letter
+			result += "[color=red]%s[/color]" % correct_letter
+		elif user_letter == correct_letter:
+			# Correct letter
+			result += "[color=lime_green]%s[/color]" % correct_letter
+		else:
+			# Wrong letter
+			result += "[color=red]%s[/color]" % correct_letter
+	
+	return result
 	
 
 func set_current_sentences() -> bool:
