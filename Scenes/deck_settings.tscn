@@ -140,7 +140,7 @@ text = "Show previous answer:"
 [node name="ListContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 3.19
+size_flags_stretch_ratio = 4.0
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/ListContainer"]
 layout_mode = 2
@@ -149,6 +149,7 @@ text = "Sentences in deck:"
 [node name="Sentences" type="ItemList" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer/Margins/HBoxContainer/ListContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_vertical = 3
 auto_height = true
 
 [connection signal="button_down" from="PanelContainer/MarginContainer/VBoxContainer/Top Bar/Back" to="." method="_on_back_button_down"]

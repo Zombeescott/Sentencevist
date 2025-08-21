@@ -1,5 +1,6 @@
 extends Control
 
+var card_count_label: Label
 var native_sentence: RichTextLabel
 var text_block: TextEdit
 var correct_label: RichTextLabel
@@ -21,11 +22,15 @@ var deck_method: int = 0
 var use_prev_ans: bool = true
 
 var saved_words: Array
+var card_count: int = 0;
 var retry_counter: int = RETRY_NUM
+var last_saved_words_count: int = 0
+var last_sent_keys_count: int
 
 const RETRY_NUM: int = 3
 
 func _ready() -> void:
+	card_count_label = %CardCountLabel
 	native_sentence = %Sentence
 	text_block = %TextEdit
 	correct_label = %CorrectLabel
@@ -62,9 +67,10 @@ func set_variables(settings: StudySettings) -> void:
 	deck_method = settings.method
 	deck_order = settings.order
 	use_prev_ans = settings.prev_ans
+	last_sent_keys_count = sentence_keys.size()
 	
-	set_current_sentences()
-	clean_display()
+	next_sentence()
+	#increment_card_count()
 	
 
 # Checks if input was correct
@@ -163,6 +169,7 @@ func set_current_sentences() -> bool:
 				retry_counter = RETRY_NUM
 			
 	if retry_counter != 0 and more_sents: # Default method
+		
 		match deck_order:
 			0: # In order
 				curr = sentence_keys.pop_front()
@@ -178,10 +185,29 @@ func set_current_sentences() -> bool:
 func next_sentence() -> void:
 	set_current_sentences()
 	clean_display()
+	check_finished_cards()
 	
 	if use_prev_ans:
 		prev_ans_label.text = ""
 	
+
+func check_finished_cards() -> void:
+	if last_sent_keys_count > sentence_keys.size() \
+	and last_saved_words_count == saved_words.size():
+		# Word completed first try or "One and done"
+		increment_card_count()
+	elif last_saved_words_count > saved_words.size():
+		# Word removed from saved_words
+		increment_card_count()
+	
+	last_sent_keys_count = sentence_keys.size()
+	last_saved_words_count = saved_words.size()
+	
+
+func increment_card_count() -> void:
+		card_count += 1
+		card_count_label.text = "%d/%d" % [card_count, sentence_dict.size()]
+		
 
 # Fixes display if there is something going on
 func clean_display() -> void:

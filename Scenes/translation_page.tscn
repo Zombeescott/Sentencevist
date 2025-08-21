@@ -49,18 +49,21 @@ alignment = 1
 [node name="Left Square" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/Top Bar"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.8
+size_flags_stretch_ratio = 0.15
 color = Color(0.815389, 0.815389, 0.815389, 1)
 
 [node name="Gap" type="Control" parent="PanelContainer/MarginContainer/VBoxContainer/Top Bar"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 5.45
 
-[node name="Right Square" type="ColorRect" parent="PanelContainer/MarginContainer/VBoxContainer/Top Bar"]
+[node name="CardCountLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/Top Bar"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-color = Color(0.587079, 0.587078, 0.587078, 1)
+size_flags_stretch_ratio = 0.1
+text = "1/1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Word Container" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
