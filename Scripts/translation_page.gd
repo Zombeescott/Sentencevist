@@ -46,6 +46,11 @@ func _input(event):
 		else:
 			answer_feedback(check_answer())
 	
+	if Input.is_action_just_pressed("tab") and use_prev_ans:
+		if text_block.text == "":
+			await get_tree().process_frame
+			text_block.text = prev_ans_label.text
+	
 	if event is InputEventKey and event.pressed:
 		if wrong_state or correct_state:
 			prevent_change()
@@ -70,7 +75,7 @@ func check_answer() -> bool:
 	if deck_method == 1 and !saved_words.has(current_native):
 		# Save for user to retry
 		saved_words.append(current_native)
-	if use_prev_ans:
+	if use_prev_ans and text_block.text != "":
 		prev_ans_label.text = text_block.text
 	
 	return false
@@ -90,6 +95,9 @@ func answer_feedback(status: bool) -> void:
 	
 
 func change_text_color(user_input: String, correct_text: String) -> String:
+	if user_input == "" and prev_ans_label.text != "":
+		# Let user check what was wrong again
+		user_input = prev_ans_label.text
 	var user_words = user_input.split(" ")
 	var correct_words = correct_text.split(" ")
 	var result = ""
@@ -122,7 +130,7 @@ func compare_word_letters(user_word: String, correct_word: String) -> String:
 			result += "%s" % correct_letter
 		elif user_letter != "" and correct_letter == "":
 			# Extra letter
-			result += "[color=red]%s[/color]" % correct_letter
+			result += "[color=light_blue]%s[/color]" % user_letter
 		elif user_letter == correct_letter:
 			# Correct letter
 			result += "[color=lime_green]%s[/color]" % correct_letter
@@ -148,12 +156,13 @@ func set_current_sentences() -> bool:
 		if retry_counter > 0 and more_sents:
 			# when counter hits zero, review words
 			retry_counter -= 1
-		else:
+		
+		if retry_counter == 0 || !more_sents:
 			curr = saved_words.pop_front()
-			if saved_words.size() > 0:
+			if saved_words.size() <= 0:
 				retry_counter = RETRY_NUM
 			
-	if retry_counter > 0 and more_sents: # Default method
+	if retry_counter != 0 and more_sents: # Default method
 		match deck_order:
 			0: # In order
 				curr = sentence_keys.pop_front()

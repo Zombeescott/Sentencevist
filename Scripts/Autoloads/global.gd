@@ -5,7 +5,8 @@ var example_decks: Dictionary
 var user_progress: Array
 
 func _ready() -> void:
-	set_screen_size()
+	pass
+	#set_screen_size()
 	
 
 # Set the screen size
