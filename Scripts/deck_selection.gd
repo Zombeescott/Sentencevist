@@ -25,7 +25,7 @@ func _on_user_decks_item_selected(index: int) -> void:
 
 # Not implemented rn for simplicity
 func _on_example_decks_item_selected(index: int) -> void:
-	pass # Replace with function body.
+	pass # TODO: Replace with function body.
 	
 
 func _on_next_button_down() -> void:
@@ -33,4 +33,13 @@ func _on_next_button_down() -> void:
 	var settings = deck_settings.instantiate()
 	BackgroundManager.add_panel("Deck Settings", settings, 1)
 	settings.set_variables(selected_deck)
+	
+
+func _on_files_buttton_button_down() -> void:
+	var user_path = ProjectSettings.globalize_path("user://saves/")
+	OS.shell_open(user_path)
+	
+
+func _on_refresh_button_down() -> void:
+	Global.refresh()
 	

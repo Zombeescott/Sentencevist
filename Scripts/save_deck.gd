@@ -36,10 +36,6 @@ func _on_save_button_down() -> void:
 		# TODO: tell user that it was successful
 		Global.refresh()
 		hide_panel()
-		
-		# Shortcut for files
-		var user_path = ProjectSettings.globalize_path("user://saves/")
-		OS.shell_open(user_path)
 	else:
 		# TODO: tell user that something went wrong
 		pass

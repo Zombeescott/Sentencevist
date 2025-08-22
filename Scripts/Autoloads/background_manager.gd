@@ -9,6 +9,7 @@ var panels: Dictionary = {}
 func _ready() -> void:
 	background = get_tree().current_scene
 	sidebar = background.find_child("Sidebar")
+	panels["start_panel"] = background.find_child("Deck Selection")
 	
 
 # Makes specific scene appear on a given layer
@@ -34,11 +35,9 @@ func add_panel(name: String, panel: Node, layer: int = 0) -> void:
 	# Close existing panel with same name
 	if name in panels:
 		panels[name].queue_free()
-	
-	get_tree().current_scene.add_child(panel)
 	panel.z_index = layer
-	
 	panels[name] = panel
+	get_tree().current_scene.add_child(panel)
 	
 
 # Deletes given panel from current scene.

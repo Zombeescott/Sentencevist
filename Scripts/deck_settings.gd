@@ -19,6 +19,8 @@ func _ready() -> void:
 	sent_list = %Sentences
 	translation_screen = preload("res://Scenes/translation_page.tscn")
 	
+	print("here")
+	
 
 func set_variables(deck_name: String) -> void:
 	selected_deck = deck_name

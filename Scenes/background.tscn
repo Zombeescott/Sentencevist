@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://oob10jejofmk"]
+[gd_scene load_steps=3 format=3 uid="uid://oob10jejofmk"]
 
 [ext_resource type="PackedScene" uid="uid://ulw14cxsvyqg" path="res://Scenes/side_bar.tscn" id="1_sn1xx"]
+[ext_resource type="PackedScene" uid="uid://c2cd6nrwgacwx" path="res://Scenes/deck_selection.tscn" id="2_pojwb"]
 
 [node name="Background" type="Control"]
 layout_mode = 3
@@ -20,4 +21,7 @@ grow_vertical = 2
 color = Color(0.74768, 0.74768, 0.74768, 1)
 
 [node name="Sidebar" parent="." instance=ExtResource("1_sn1xx")]
+layout_mode = 1
+
+[node name="Deck Selection" parent="." instance=ExtResource("2_pojwb")]
 layout_mode = 1
